@@ -100,7 +100,7 @@ function App() {
       });
       return response.data.id;
     } catch (error) {
-      console.error('Lỗi khi tạo playlist:', error);
+      console.error('Error when create playlist:', error);
     }
   }
 
@@ -110,23 +110,30 @@ function App() {
         uris
       });
     } catch (error) {
-      console.error('Lỗi khi thêm tracks:', error);
+      console.error('Error when add new tracks:', error);
     }
   }
 
   const savePlaylistToSpotify = async (name, playlistTracks) => {
     if (!playlistTracks.length) {
-      alert("Playlist đang rỗng");
+      alert("Playlist is empty");
       return;
     }
+    try {
+      const playlistId = await createPlaylist(userId, name, 'Được tạo từ ứng dụng Jammming');
+      if (!playlistId) return;
 
-    const playlistId = await createPlaylist(userId, name, 'Được tạo từ ứng dụng Jammming');
-    if (!playlistId) return;
+      const uris = playlistTracks.map(track => `spotify:track:${track.id}`);
+      await addTracksToPlaylist(playlistId, uris);
 
-    const uris = playlistTracks.map(track => `spotify:track:${track.id}`);
-    await addTracksToPlaylist(playlistId, uris);
+      alert("Đã lưu playlist thành công!");
+      setPlaylistTracks([])
+    } catch (error) {
+      console.log(error);
 
-    alert("Đã lưu playlist thành công!");
+    }
+
+    playlistTracks = []
   };
 
 

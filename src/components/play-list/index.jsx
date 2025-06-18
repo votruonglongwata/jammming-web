@@ -4,7 +4,7 @@ import TrackList from '../track-list'
 import { useState } from 'react'
 
 const Playlist = ({ playlistTracks, isRemoval, onRemove, onSubmit }) => {
-    const [name, setName] = useState('')
+    const [name, setName] = useState('New Playlist')
 
     const handleAddPlaylist = () => {
         onSubmit(name, playlistTracks)
