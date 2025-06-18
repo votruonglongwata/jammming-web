@@ -12,3 +12,5 @@ const getRequestParams = async (url, params) => {
     const res = await SpotifyApi.get(`${url}`, { params: params });
     return res;
 };
+
+export { getRequest, getRequestParams }

@@ -1,11 +1,22 @@
 import React from 'react'
 import './index.css'
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
+    const [term, setTerm] = useState('');
+
+    const handleClick = () => {
+        if (term.trim()) {
+            onSearch(term);
+        }
+    };
     return (
-        <div class="SearchBar">
-            <input placeholder="Enter A Song, Album, or Artist" />
-            <button class="SearchButton">SEARCH</button>\
+        <div className="SearchBar">
+            <input type="text"
+                placeholder="Enter a song, album, or artist"
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+            />
+            <button className="SearchButton" onClick={handleClick}>SEARCH</button>
         </div>
     )
 }

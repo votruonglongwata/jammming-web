@@ -1,11 +1,19 @@
+import { useEffect, useState } from 'react'
 import './App.css'
 import Playlist from './components/play-list'
 import SearchBar from './components/search-bar'
 import SearchResults from './components/search-result'
+import Spotify from './utils/Spotify'
+import { setSpotifyAccessToken } from './config/setSpotifyToken'
+import { getRequest } from './services/api'
 function App() {
 
+  const [searchTerm, setSearchTerm] = useState('')
+  const [tracks, setTracks] = useState([])
+  const [token, setToken] = useState('');
+
   // Utility to generate code challenge from verifier
-  function generateCodeChallenge(verifier) {
+  async function generateCodeChallenge(verifier) {
     return crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))
       .then(hash => {
         return btoa(String.fromCharCode(...new Uint8Array(hash)))
@@ -64,6 +72,42 @@ function App() {
 
     window.location.href = authUrl;
   }
+
+  useEffect(() => {
+    const token = Spotify.getAccessToken()
+
+    if (token) {
+      setSpotifyAccessToken(token)
+      setToken(token);
+    }
+
+  }, [])
+
+
+  const search = async (term) => {
+    try {
+      const response = await getRequest(`/search?type=track&q=${encodeURIComponent(term)}`)
+
+      const data = response.tracks?.items?.map(track => ({
+        id: track.id,
+        name: track.name,
+        artist: track.artists[0]?.name,
+        album: track.album?.name,
+        uri: track.uri,
+      })) || [];
+
+      setTracks(data)
+    } catch (error) {
+      console.error("Seach error:", error);
+      return [];
+    }
+  }
+
+  const handleSearch = async (term) => {
+    setSearchTerm(term)
+    search(term)
+  }
+
   return (
     <div>
       <div className='header'>
@@ -74,7 +118,7 @@ function App() {
       </div>
       <div className="app">
 
-        <SearchBar />
+        <SearchBar onSearch={handleSearch} />
         <div className="app-playlist">
           <SearchResults />
           <Playlist />

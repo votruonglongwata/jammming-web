@@ -3,12 +3,12 @@ import './index.css'
 
 const Track = () => {
     return (
-        <div class="Track">
-            <div class="Track-information">
+        <div className="Track">
+            <div className="Track-information">
                 <h3>track name</h3>
                 <p>track artis | track album</p>
             </div>
-            <button class="Track-action">+ or -</button>
+            <button className="Track-action">+ or -</button>
         </div>
     )
 }
