@@ -78,6 +78,8 @@ function App() {
   const getCurrentUserId = async () => {
     try {
       const response = await getRequest('/me');
+      console.log(response.data.id);
+
       setUserId(response.data.id);
     } catch (error) {
       console.error('Lỗi khi lấy user id:', error);
@@ -89,10 +91,10 @@ function App() {
   }, [userId])
 
 
-  const createPlaylist = async (userId, name, description = '') => {
+  const createPlaylist = async (userId, playListName, description = '') => {
     try {
       const response = await postRequestParams(`/users/${userId}/playlists`, {
-        name,
+        playListName,
         description,
         public: false
       });
@@ -112,13 +114,13 @@ function App() {
     }
   }
 
-  const savePlaylistToSpotify = async (name, playlistTracks) => {
+  const savePlaylistToSpotify = async (playListName, playlistTracks) => {
     if (!playlistTracks.length) {
       alert("Playlist đang rỗng");
       return;
     }
 
-    const playlistId = await createPlaylist(userId, 'Jammming Playlist', 'Được tạo từ ứng dụng Jammming');
+    const playlistId = await createPlaylist(userId, playListName, 'Được tạo từ ứng dụng Jammming');
     if (!playlistId) return;
 
     const uris = playlistTracks.map(track => `spotify:track:${track.id}`);
