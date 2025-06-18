@@ -12,6 +12,7 @@ function App() {
   const [tracks, setTracks] = useState([])
   const [token, setToken] = useState('');
   const [playlistTracks, setPlaylistTracks] = useState([])
+  const [isRemoval, setIsRemoval] = useState(false)
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -65,7 +66,7 @@ function App() {
 
   const addTrack = (track) => {
     const isTrackExist = playlistTracks.find(savedTrack => savedTrack.id === track.id);
-    if (isTrackExist) return;
+    if (isTrackExist) alert('track has exist in playlist');
 
     setPlaylistTracks(prevTracks => [...prevTracks, track]);
   };
@@ -81,8 +82,8 @@ function App() {
 
         <SearchBar onSearch={handleSearch} />
         <div className="app-playlist">
-          <SearchResults tracks={tracks} addTrack={addTrack} />
-          <Playlist playlistTracks={playlistTracks} />
+          <SearchResults tracks={tracks} addTrack={addTrack} isRemoval={false} />
+          <Playlist playlistTracks={playlistTracks} isRemoval={true} />
         </div>
       </div>
     </div>
