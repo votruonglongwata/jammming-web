@@ -4,7 +4,6 @@ import Playlist from './components/play-list'
 import SearchBar from './components/search-bar'
 import SearchResults from './components/search-result'
 import Spotify from './utils/Spotify'
-import { setSpotifyAccessToken } from './config/setSpotifyToken'
 import { getRequest } from './services/api'
 function App() {
 
@@ -21,7 +20,6 @@ function App() {
 
       if (token) {
         console.log('app token: ', token);
-        console.log("Token has been set to axios:", token);
         setToken(token);
       }
       setLoading(false)

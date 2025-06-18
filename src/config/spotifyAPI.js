@@ -1,12 +1,18 @@
 import axios from "axios";
 
-let accessToken = localStorage.getItem("access_token");
 
 export const SpotifyApi = axios.create({
     baseURL: 'https://api.spotify.com/v1',
     headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
     },
 })
+
+SpotifyApi.interceptors.request.use(config => {
+    const accessToken = localStorage.getItem("access_token");
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+});
