@@ -51,13 +51,19 @@ const Spotify = {
             const codeChallenge = await generateCodeChallenge(codeVerifier);
             localStorage.setItem('code_verifier', codeVerifier);
 
-            const scope = 'playlist-modify-public playlist-modify-private';
+            const scopes = [
+                'playlist-modify-public',
+                'playlist-modify-private',
+                'user-read-private'
+            ];
 
-            const authUrl = `https://accounts.spotify.com/authorize?` +
-                `client_id=${clientId}&response_type=code` +
-                `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-                `&scope=${encodeURIComponent(scope)}` +
-                `&code_challenge_method=S256&code_challenge=${codeChallenge}`;
+            const authUrl = new URL('https://accounts.spotify.com/authorize');
+            authUrl.searchParams.set('response_type', 'code');
+            authUrl.searchParams.set('client_id', clientId);
+            authUrl.searchParams.set('scope', scopes.join(' '));
+            authUrl.searchParams.set('redirect_uri', redirectUri);
+            authUrl.searchParams.set('code_challenge_method', 'S256');
+            authUrl.searchParams.set('code_challenge', codeChallenge);
 
             window.location = authUrl;
         }
