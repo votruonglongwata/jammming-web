@@ -49,6 +49,8 @@ function App() {
       return [];
     }
   }
+  console.log(tracks);
+
 
   const handleSearch = async (term) => {
     setSearchTerm(term)
