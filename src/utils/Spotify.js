@@ -17,6 +17,8 @@ const Spotify = {
         if (code) {
             // Lấy code_verifier đã lưu khi redirect
             const codeVerifier = localStorage.getItem('code_verifier');
+            console.log(codeVerifier);
+
             if (!codeVerifier) throw new Error('Missing code_verifier');
 
             // Gửi POST request để lấy access_token
@@ -38,7 +40,8 @@ const Spotify = {
 
             const data = await response.json();
             if (data.access_token) {
-                accessToken = data.access_token; // Xoá ?code khỏi URL
+                accessToken = data.access_token;
+                window.history.replaceState({}, document.title, '/'); // Xoá ?code khỏi URL
                 return accessToken;
             } else {
                 console.error('Failed to get token:', data);

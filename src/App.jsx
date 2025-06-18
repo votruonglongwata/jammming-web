@@ -12,26 +12,14 @@ function App() {
   const [tracks, setTracks] = useState([])
   const [token, setToken] = useState('');
 
-  // Utility to generate code challenge from verifier
-
-
-
-
-
-  const handleLogin = () => {
-    const authUrl = `https://accounts.spotify.com/authorize?` +
-      `client_id=${clientId}` +
-      `&response_type=token` +
-      `&scope=${encodeURIComponent(scopes.join(' '))}` +
-      `&redirect_uri=${encodeURIComponent(redirectUri)}`;
-
-    window.location.href = authUrl;
-  }
-
   useEffect(() => {
     const fetchAccessToken = async () => {
       const token = await Spotify.getAccessToken();
-      console.log(token);
+      if (!token) {
+        console.error("Access token retrieval failed.");
+        return;
+      }
+
 
       if (token) {
         setSpotifyAccessToken(token); // cập nhật vào axios headers
