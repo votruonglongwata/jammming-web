@@ -18,10 +18,6 @@ function App() {
     const fetchAccessToken = async () => {
       setLoading(true)
       const token = await Spotify.getAccessToken();
-      if (!token) {
-        console.error("Access token retrieval failed.");
-        return;
-      }
 
       console.log('app token: ', token);
 
@@ -29,8 +25,8 @@ function App() {
         setSpotifyAccessToken(token);
         console.log("Token has been set to axios:", token);
         setToken(token);
-        setLoading(false)
       }
+      setLoading(false)
     }
     fetchAccessToken()
   }, [token])
