@@ -35,6 +35,7 @@ function App() {
     try {
 
       const response = await getRequest(`/search?q=${term}&type=track`)
+      console.log('response', response);
       const data = response.tracks?.items?.map(track => ({
         id: track.id,
         name: track.name,
