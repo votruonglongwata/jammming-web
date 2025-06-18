@@ -5,7 +5,8 @@ import { useState } from 'react'
 
 const Playlist = ({ playlistTracks, isRemoval, onRemove, onSubmit }) => {
     const [playListName, setPlayListName] = useState('')
-    const handleAddPlaylist = (playListName, playlistTracks) => {
+
+    const handleAddPlaylist = () => {
         onSubmit(playListName, playlistTracks)
     }
     return (
