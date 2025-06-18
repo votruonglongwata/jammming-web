@@ -3,7 +3,7 @@ import './index.css'
 
 const Track = ({ track, addTrack }) => {
     const handleAdd = () => {
-        onAdd(track);
+        addTrack(track);
     };
     return (
         <div className="Track">
