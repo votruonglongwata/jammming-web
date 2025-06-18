@@ -33,7 +33,7 @@ function App() {
       }
     }
     fetchAccessToken()
-  }, [])
+  }, [token])
 
   const search = async (term) => {
     try {
