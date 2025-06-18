@@ -12,9 +12,11 @@ function App() {
   const [tracks, setTracks] = useState([])
   const [token, setToken] = useState('');
   const [playlistTracks, setPlaylistTracks] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchAccessToken = async () => {
+      setLoading(true)
       const token = await Spotify.getAccessToken();
       if (!token) {
         console.error("Access token retrieval failed.");
@@ -27,6 +29,7 @@ function App() {
         setSpotifyAccessToken(token);
         console.log("Token has been set to axios:", token);
         setToken(token);
+        setLoading(false)
       }
     }
     fetchAccessToken()
@@ -63,7 +66,10 @@ function App() {
 
   const addTrack = (track) => {
     const isTrackExist = playlistTracks.find(savedTrack => savedTrack.id === track.id);
-    if (isTrackExist) alert('track has exist in playlist');
+    if (isTrackExist) {
+      alert('Track already in playlist');
+      return;
+    }
 
     setPlaylistTracks(prevTracks => [...prevTracks, track]);
   };
@@ -83,14 +89,20 @@ function App() {
       <div className='header'>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
       </div>
-      <div className="app">
+      {loading ?
+        (<div className="loading">🔐 Đang đăng nhập vào Spotify...</div>)
+        :
+        (
+          <div className="app">
+            <SearchBar onSearch={handleSearch} />
+            <div className="app-playlist">
+              <SearchResults tracks={tracks} onAdd={addTrack} isRemoval={false} />
+              <Playlist playlistTracks={playlistTracks} isRemoval={true} onRemove={removeTrack} />
+            </div>
+          </div>
+        )
+      }
 
-        <SearchBar onSearch={handleSearch} />
-        <div className="app-playlist">
-          <SearchResults tracks={tracks} onAdd={addTrack} isRemoval={false} />
-          <Playlist playlistTracks={playlistTracks} isRemoval={true} onRemove={removeTrack} />
-        </div>
-      </div>
     </div>
   )
 }
