@@ -41,6 +41,8 @@ const Spotify = {
             const data = await response.json();
             if (data.access_token) {
                 accessToken = data.access_token;
+                console.log(accessToken);
+
                 window.history.replaceState({}, document.title, '/'); // Xoá ?code khỏi URL
                 return accessToken;
             } else {
