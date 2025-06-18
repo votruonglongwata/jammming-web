@@ -8,7 +8,7 @@ const Track = ({ track }) => {
                 <h3>{track.name}</h3>
                 <p>{track.artist} | {track.album}</p>
             </div>
-            <button className="Track-action">+ or -</button>
+            <button className="Track-action">+</button>
         </div>
     )
 }

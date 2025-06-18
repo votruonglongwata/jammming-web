@@ -34,7 +34,7 @@ function App() {
   const search = async (term) => {
     try {
 
-      const response = await getRequest(`/search?q=${term}&type=track`)
+      const response = await getRequest(`/search?q=${term}&type=track&limit=8`)
       console.log('response', response);
       const data = response.data?.tracks?.items?.map(track => ({
         id: track.id,
