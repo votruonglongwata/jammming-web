@@ -11,6 +11,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [tracks, setTracks] = useState([])
   const [token, setToken] = useState('');
+  const [playlistTracks, setPlaylistTracks] = useState([])
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -62,7 +63,13 @@ function App() {
     search(term)
   }
 
-  console.log(tracks);
+  const addTrack = (track) => {
+    const isTrackExist = playlistTracks.find(savedTrack => savedTrack.id === track.id);
+    if (isTrackExist) return;
+
+    setPlaylistTracks(prevTracks => [...prevTracks, track]);
+  };
+
 
 
   return (
@@ -74,8 +81,8 @@ function App() {
 
         <SearchBar onSearch={handleSearch} />
         <div className="app-playlist">
-          <SearchResults tracks={tracks} />
-          <Playlist />
+          <SearchResults tracks={tracks} addTrack={addTrack} />
+          <Playlist playlistTracks={playlistTracks} />
         </div>
       </div>
     </div>
