@@ -38,6 +38,7 @@ function App() {
         name: track.name,
         artist: track.artists[0].name,
       })) || [];
+      console.log('data', data);
 
       setTracks(data)
 
