@@ -1,30 +1,63 @@
+import { generateCodeChallenge, generateRandomString } from "../config/pkce";
+
 const clientId = '9cadc247ee634265b68c5d118ac46480';
 const redirectUri = 'https://jammming-web.vercel.app';
-let accessToken;
+const tokenEndpoint = 'https://accounts.spotify.com/api/token';
+
+
+let accessToken = '';
 
 const Spotify = {
-    getAccessToken() {
+    async getAccessToken() {
         if (accessToken) return accessToken;
 
-        // Kiểm tra token có trong URL không
-        const tokenMatch = window.location.href.match(/access_token=([^&]*)/);
-        const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
 
-        if (tokenMatch && expiresInMatch) {
-            accessToken = tokenMatch[1];
-            const expiresIn = Number(expiresInMatch[1]);
+        if (code) {
+            // Lấy code_verifier đã lưu khi redirect
+            const codeVerifier = localStorage.getItem('code_verifier');
+            if (!codeVerifier) throw new Error('Missing code_verifier');
 
-            // Xóa token khỏi URL sau khi lấy
-            window.setTimeout(() => (accessToken = ''), expiresIn * 1000);
-            window.history.pushState('Access Token', null, '/');
+            // Gửi POST request để lấy access_token
+            const body = new URLSearchParams({
+                client_id: clientId,
+                grant_type: 'authorization_code',
+                code,
+                redirect_uri: redirectUri,
+                code_verifier: codeVerifier,
+            });
 
-            return accessToken;
+            const response = await fetch(tokenEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: body.toString(),
+            });
+
+            const data = await response.json();
+            if (data.access_token) {
+                accessToken = data.access_token;
+                window.history.replaceState({}, document.title, "/"); // Xoá ?code khỏi URL
+                return accessToken;
+            } else {
+                console.error('Failed to get token:', data);
+                return null;
+            }
         } else {
-            // Nếu chưa có token thì redirect đến Spotify login
+            // Nếu chưa có token, bắt đầu quá trình login
+            const codeVerifier = generateRandomString(128);
+            const codeChallenge = await generateCodeChallenge(codeVerifier);
+            localStorage.setItem('code_verifier', codeVerifier);
+
             const scope = 'playlist-modify-public playlist-modify-private';
+
             const authUrl = `https://accounts.spotify.com/authorize?` +
-                `client_id=${clientId}&response_type=token&scope=${encodeURIComponent(scope)}` +
-                `&redirect_uri=${encodeURIComponent(redirectUri)}`;
+                `client_id=${clientId}&response_type=code` +
+                `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+                `&scope=${encodeURIComponent(scope)}` +
+                `&code_challenge_method=S256&code_challenge=${codeChallenge}`;
 
             window.location = authUrl;
         }
