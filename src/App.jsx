@@ -64,7 +64,7 @@ function App() {
 
         <SearchBar onSearch={handleSearch} />
         <div className="app-playlist">
-          <SearchResults />
+          <SearchResults tracks={tracks} />
           <Playlist />
         </div>
       </div>
