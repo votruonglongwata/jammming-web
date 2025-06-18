@@ -91,10 +91,10 @@ function App() {
   }, [userId])
 
 
-  const createPlaylist = async (userId, playListName, description = '') => {
+  const createPlaylist = async (userId, name, description = '') => {
     try {
       const response = await postRequestParams(`/users/${userId}/playlists`, {
-        name: playListName,
+        name,
         description,
         public: false
       });
@@ -114,13 +114,13 @@ function App() {
     }
   }
 
-  const savePlaylistToSpotify = async (playListName, playlistTracks) => {
+  const savePlaylistToSpotify = async (name, playlistTracks) => {
     if (!playlistTracks.length) {
       alert("Playlist đang rỗng");
       return;
     }
 
-    const playlistId = await createPlaylist(userId, playListName, 'Được tạo từ ứng dụng Jammming');
+    const playlistId = await createPlaylist(userId, name, 'Được tạo từ ứng dụng Jammming');
     if (!playlistId) return;
 
     const uris = playlistTracks.map(track => `spotify:track:${track.id}`);

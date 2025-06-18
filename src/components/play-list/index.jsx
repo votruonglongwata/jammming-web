@@ -4,14 +4,14 @@ import TrackList from '../track-list'
 import { useState } from 'react'
 
 const Playlist = ({ playlistTracks, isRemoval, onRemove, onSubmit }) => {
-    const [playListName, setPlayListName] = useState('')
+    const [name, setName] = useState('')
 
     const handleAddPlaylist = () => {
-        onSubmit(playListName, playlistTracks)
+        onSubmit(name, playlistTracks)
     }
     return (
         <div className="Playlist">
-            <input defaultValue="New Playlist" onChange={e => setPlayListName(e.target.value)} />
+            <input defaultValue="New Playlist" onChange={e => setName(e.target.value)} />
             <TrackList tracks={playlistTracks} isRemoval={isRemoval} onRemove={onRemove} />
             <button className="Playlist-save" onClick={handleAddPlaylist}>SAVE TO SPOTIFY</button>
         </div>
