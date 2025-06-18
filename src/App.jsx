@@ -20,6 +20,7 @@ function App() {
         return;
       }
 
+      console.log('app token: ', token);
 
       if (token) {
         setSpotifyAccessToken(token); // cập nhật vào axios headers
