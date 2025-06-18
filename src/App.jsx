@@ -94,7 +94,7 @@ function App() {
   const createPlaylist = async (userId, playListName, description = '') => {
     try {
       const response = await postRequestParams(`/users/${userId}/playlists`, {
-        playListName,
+        name: playListName,
         description,
         public: false
       });
