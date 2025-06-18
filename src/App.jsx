@@ -23,8 +23,9 @@ function App() {
       console.log('app token: ', token);
 
       if (token) {
-        setSpotifyAccessToken(token); // cập nhật vào axios headers
-        setToken(token); // cập nhật vào state nếu cần
+        setSpotifyAccessToken(token);
+        console.log("Token has been set to axios:", token);
+        setToken(token);
       }
     }
     fetchAccessToken()
@@ -32,6 +33,7 @@ function App() {
 
   const search = async (term) => {
     try {
+
       const response = await getRequest(`/search?q=${term}&type=track`)
       const data = response.tracks?.items?.map(track => ({
         id: track.id,
@@ -50,6 +52,10 @@ function App() {
 
 
   const handleSearch = async (term) => {
+    if (!token) {
+      console.warn("Token chưa có, chờ token...");
+      return;
+    }
     setSearchTerm(term)
     search(term)
   }
