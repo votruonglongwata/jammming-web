@@ -112,7 +112,7 @@ function App() {
     }
   }
 
-  const savePlaylistToSpotify = async () => {
+  const savePlaylistToSpotify = async (name, playlistTracks) => {
     if (!playlistTracks.length) {
       alert("Playlist đang rỗng");
       return;

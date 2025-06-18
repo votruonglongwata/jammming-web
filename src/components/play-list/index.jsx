@@ -3,11 +3,15 @@ import './index.css'
 import TrackList from '../track-list'
 
 const Playlist = ({ playlistTracks, isRemoval, onRemove, onSubmit }) => {
+    const [playListName, setPlayListName] = useState('')
+    const handleAddPlaylist = (playListName, playlistTracks) => {
+        onSubmit(playListName, playlistTracks)
+    }
     return (
         <div className="Playlist">
-            <input defaultValue="New Playlist" />
+            <input defaultValue="New Playlist" onChange={e => setPlayListName(e.target.value)} />
             <TrackList tracks={playlistTracks} isRemoval={isRemoval} onRemove={onRemove} />
-            <button className="Playlist-save" onClick={onSubmit}>SAVE TO SPOTIFY</button>
+            <button className="Playlist-save" onClick={handleAddPlaylist}>SAVE TO SPOTIFY</button>
         </div>
     )
 }
