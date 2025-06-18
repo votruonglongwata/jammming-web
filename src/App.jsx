@@ -38,10 +38,6 @@ function App() {
         name: track.name,
         artist: track.artists[0].name,
       })) || [];
-      console.log('data: ', data);
-
-
-
 
       setTracks(data)
 
@@ -56,6 +52,9 @@ function App() {
     setSearchTerm(term)
     search(term)
   }
+
+  console.log(tracks);
+
 
   return (
     <div>
