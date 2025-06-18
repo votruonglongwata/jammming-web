@@ -19,11 +19,8 @@ function App() {
       setLoading(true)
       const token = await Spotify.getAccessToken();
 
-
-
       if (token) {
         console.log('app token: ', token);
-        setSpotifyAccessToken(token);
         console.log("Token has been set to axios:", token);
         setToken(token);
       }
