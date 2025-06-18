@@ -5,7 +5,7 @@ import SearchResults from './components/search-result'
 function App() {
 
   const clientId = '9cadc247ee634265b68c5d118ac46480';
-  const redirectUri = 'https://localhost:5173';
+  const redirectUri = 'https://jammming-web.vercel.app';
   const scopes = [
     'playlist-modify-public',
     'playlist-modify-private',
