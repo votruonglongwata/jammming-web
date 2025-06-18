@@ -33,14 +33,13 @@ function App() {
 
   const search = async (term) => {
     try {
-      const response = await getRequest(`/search?type=track&q=${encodeURIComponent(term)}`)
+      const response = await getRequest(`/search??q=${term}&type=track`)
 
       const data = response.tracks?.items?.map(track => ({
         id: track.id,
-        name: track.name,
-        artist: track.artists[0]?.name,
-        album: track.album?.name,
-        uri: track.uri,
+        title: track.name,
+        artist: track.artists[0].name,
+        album: track.album.name,
       })) || [];
 
 
