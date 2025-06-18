@@ -1,9 +1,15 @@
 import React from 'react'
 import './index.css'
 
-const Track = ({ track, addTrack, isRemoval }) => {
-    const handleAdd = () => {
-        addTrack(track);
+const Track = ({ track, onAdd, isRemoval, onRemove }) => {
+    const handleClick = () => {
+        if (isRemoval) {
+            onRemove(track.id)
+        }
+        else {
+            onAdd(track);
+        }
+
     };
     return (
         <div className="Track">
@@ -11,10 +17,8 @@ const Track = ({ track, addTrack, isRemoval }) => {
                 <h3>{track.name}</h3>
                 <p>{track.artist} | {track.album}</p>
             </div>
-            {
-                isRemoval ?
-                    <button className="Track-action" onClick={handleAdd}>-</button>
-                    : <button className="Track-action" onClick={handleAdd}>+</button>}
+            <button className="Track-action" onClick={handleClick}>{isRemoval ? '-' : '+'}</button>
+
 
         </div>
     )

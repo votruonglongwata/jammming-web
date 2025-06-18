@@ -68,6 +68,14 @@ function App() {
     setPlaylistTracks(prevTracks => [...prevTracks, track]);
   };
 
+  const removeTrack = (id) => {
+    const isTrackExist = playlistTracks.find(savedTrack => savedTrack.id === id);
+    if (!isTrackExist) return;
+
+    const updatedTracks = playlistTracks.filter(track => track.id !== id);
+    setPlaylistTracks(updatedTracks);
+  };
+
 
 
   return (
@@ -79,8 +87,8 @@ function App() {
 
         <SearchBar onSearch={handleSearch} />
         <div className="app-playlist">
-          <SearchResults tracks={tracks} addTrack={addTrack} isRemoval={false} />
-          <Playlist playlistTracks={playlistTracks} isRemoval={true} />
+          <SearchResults tracks={tracks} onAdd={addTrack} isRemoval={false} />
+          <Playlist playlistTracks={playlistTracks} isRemoval={true} onRemove={removeTrack} />
         </div>
       </div>
     </div>
