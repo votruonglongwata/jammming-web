@@ -43,13 +43,16 @@ function App() {
         uri: track.uri,
       })) || [];
 
+
+
       setTracks(data)
+      console.log(tracks);
     } catch (error) {
       console.error("Seach error:", error);
       return [];
     }
   }
-  console.log(tracks);
+
 
 
   const handleSearch = async (term) => {
