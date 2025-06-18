@@ -77,10 +77,6 @@ function App() {
 
   const getCurrentUserId = async () => {
     try {
-      if (!token) {
-        console.warn("Waiting for token...");
-        return;
-      }
       const response = await getRequest('/me');
       console.log(response.data.id);
 
@@ -91,8 +87,10 @@ function App() {
   }
 
   useEffect(() => {
-    getCurrentUserId()
-  }, [])
+    if (token) {
+      getCurrentUserId();
+    }
+  }, [token]);
 
 
   const createPlaylist = async (userId, name, description = '') => {
