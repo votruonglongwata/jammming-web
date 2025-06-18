@@ -17,7 +17,6 @@ const Spotify = {
         if (code) {
             // Lấy code_verifier đã lưu khi redirect
             const codeVerifier = localStorage.getItem('code_verifier');
-            console.log(codeVerifier);
 
             if (!codeVerifier) throw new Error('Missing code_verifier');
 
