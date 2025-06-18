@@ -31,6 +31,8 @@ function App() {
   useEffect(() => {
     const fetchAccessToken = async () => {
       const token = await Spotify.getAccessToken();
+      console.log(token);
+
       if (token) {
         setSpotifyAccessToken(token); // cập nhật vào axios headers
         setToken(token); // cập nhật vào state nếu cần
