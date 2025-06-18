@@ -12,7 +12,6 @@ function App() {
   const [tracks, setTracks] = useState([])
   const [token, setToken] = useState('');
   const [playlistTracks, setPlaylistTracks] = useState([])
-  const [isRemoval, setIsRemoval] = useState(false)
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -55,7 +54,7 @@ function App() {
 
   const handleSearch = async (term) => {
     if (!token) {
-      console.warn("Token chưa có, chờ token...");
+      console.warn("Waiting for token...");
       return;
     }
     setSearchTerm(term)

@@ -13,8 +13,8 @@ const Track = ({ track, addTrack, isRemoval }) => {
             </div>
             {
                 isRemoval ?
-                    <button className="Track-action" onClick={handleAdd}>+</button>
-                    : <button className="Track-action" onClick={handleAdd}>-</button>}
+                    <button className="Track-action" onClick={handleAdd}>-</button>
+                    : <button className="Track-action" onClick={handleAdd}>+</button>}
 
         </div>
     )
