@@ -19,9 +19,10 @@ function App() {
       setLoading(true)
       const token = await Spotify.getAccessToken();
 
-      console.log('app token: ', token);
+
 
       if (token) {
+        console.log('app token: ', token);
         setSpotifyAccessToken(token);
         console.log("Token has been set to axios:", token);
         setToken(token);
@@ -29,7 +30,7 @@ function App() {
       setLoading(false)
     }
     fetchAccessToken()
-  }, [token])
+  }, [])
 
   const search = async (term) => {
     try {

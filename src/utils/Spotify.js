@@ -11,6 +11,12 @@ const Spotify = {
     async getAccessToken() {
         if (accessToken) return accessToken;
 
+        const storedToken = localStorage.getItem('access_token');
+        if (storedToken) {
+            accessToken = storedToken;
+            return accessToken;
+        }
+
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
 
@@ -40,6 +46,7 @@ const Spotify = {
             const data = await response.json();
             if (data.access_token) {
                 accessToken = data.access_token;
+                localStorage.setItem('access_token', accessToken);
                 console.log('spotify.js: ', accessToken);
 
                 window.history.replaceState({}, document.title, '/'); // Xoá ?code khỏi URL
