@@ -30,27 +30,29 @@ function App() {
     fetchAccessToken()
   }, [])
 
-
   const search = async (term) => {
     try {
       const response = await getRequest(`/search?q=${term}&type=track`)
 
       const data = response.tracks?.items?.map(track => ({
         id: track.id,
-        title: track.name,
+        name: track.name,
         artist: track.artists[0].name,
-        album: track.album.name,
       })) || [];
 
 
 
       setTracks(data)
-      console.log(tracks);
+
     } catch (error) {
       console.error("Seach error:", error);
       return [];
     }
   }
+  useEffect(() => {
+    if (!tracks)
+      search()
+  }, [tracks])
 
 
 
