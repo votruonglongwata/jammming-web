@@ -13,4 +13,10 @@ const getRequestParams = async (url, params) => {
     return res;
 };
 
-export { getRequest, getRequestParams }
+// [POST] -> params
+const postRequestParams = async (url, params) => {
+    const res = await SpotifyApi.post(`${url}`, { params: params });
+    return res;
+};
+
+export { getRequest, getRequestParams, postRequestParams }

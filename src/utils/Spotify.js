@@ -77,7 +77,7 @@ const Spotify = {
 
             window.location = authUrl;
         }
-    }
+    },
 };
 
 export default Spotify;

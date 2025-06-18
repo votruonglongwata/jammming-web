@@ -4,7 +4,7 @@ import Playlist from './components/play-list'
 import SearchBar from './components/search-bar'
 import SearchResults from './components/search-result'
 import Spotify from './utils/Spotify'
-import { getRequest } from './services/api'
+import { getRequest, postRequestParams } from './services/api'
 function App() {
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -12,6 +12,7 @@ function App() {
   const [token, setToken] = useState('');
   const [playlistTracks, setPlaylistTracks] = useState([])
   const [loading, setLoading] = useState(false)
+  const [userId, setUserId] = useState('')
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -74,6 +75,58 @@ function App() {
     setPlaylistTracks(updatedTracks);
   };
 
+  const getCurrentUserId = async () => {
+    try {
+      const response = await getRequest('/me');
+      setUserId(response.data.id);
+    } catch (error) {
+      console.error('Lỗi khi lấy user id:', error);
+    }
+  }
+
+  useEffect(() => {
+    getCurrentUserId()
+  }, [userId])
+
+
+  const createPlaylist = async (userId, name, description = '') => {
+    try {
+      const response = await postRequestParams(`/users/${userId}/playlists`, {
+        name,
+        description,
+        public: false
+      });
+      return response.data.id;
+    } catch (error) {
+      console.error('Lỗi khi tạo playlist:', error);
+    }
+  }
+
+  const addTracksToPlaylist = async (playlistId, uris) => {
+    try {
+      await postRequestParams(`/playlists/${playlistId}/tracks`, {
+        uris
+      });
+    } catch (error) {
+      console.error('Lỗi khi thêm tracks:', error);
+    }
+  }
+
+  const savePlaylistToSpotify = async () => {
+    if (!playlistTracks.length) {
+      alert("Playlist đang rỗng");
+      return;
+    }
+
+    const playlistId = await createPlaylist(userId, 'Jammming Playlist', 'Được tạo từ ứng dụng Jammming');
+    if (!playlistId) return;
+
+    const uris = playlistTracks.map(track => `spotify:track:${track.id}`);
+    await addTracksToPlaylist(playlistId, uris);
+
+    alert("Đã lưu playlist thành công!");
+  };
+
 
 
   return (
@@ -89,7 +142,7 @@ function App() {
             <SearchBar onSearch={handleSearch} />
             <div className="app-playlist">
               <SearchResults tracks={tracks} onAdd={addTrack} isRemoval={false} />
-              <Playlist playlistTracks={playlistTracks} isRemoval={true} onRemove={removeTrack} />
+              <Playlist playlistTracks={playlistTracks} isRemoval={true} onRemove={removeTrack} onSubmit={savePlaylistToSpotify} />
             </div>
           </div>
         )
