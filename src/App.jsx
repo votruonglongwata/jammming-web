@@ -68,9 +68,6 @@ function App() {
     <div>
       <div className='header'>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
-        <button type='button' className='login-button' onClick={redirectToSpotifyLogin}>
-          Login with Spotify
-        </button>
       </div>
       <div className="app">
 
