@@ -4,23 +4,16 @@ const clientId = '9cadc247ee634265b68c5d118ac46480';
 const redirectUri = 'https://jammming-web.vercel.app';
 const tokenEndpoint = 'https://accounts.spotify.com/api/token';
 
-let tokenExpirationTime = 0;
+
 let accessToken = '';
 
 const Spotify = {
     async getAccessToken() {
-        const currentTime = Date.now();
-
-        if (accessToken && currentTime < tokenExpirationTime) {
-            return accessToken;
-        }
+        if (accessToken) return accessToken;
 
         const storedToken = localStorage.getItem('access_token');
-        const storedExpiration = localStorage.getItem('token_expiration');
-
-        if (storedToken && storedExpiration && currentTime < parseInt(storedExpiration, 10)) {
+        if (storedToken) {
             accessToken = storedToken;
-            tokenExpirationTime = parseInt(storedExpiration, 10);
             return accessToken;
         }
 
