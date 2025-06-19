@@ -8,7 +8,6 @@ export async function generateCodeChallenge(verifier) {
         });
 }
 
-// Generate random string
 export function generateRandomString(length) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';

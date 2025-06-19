@@ -21,12 +21,10 @@ const Spotify = {
         const code = urlParams.get('code');
 
         if (code) {
-            // Lấy code_verifier đã lưu khi redirect
             const codeVerifier = localStorage.getItem('code_verifier');
 
             if (!codeVerifier) throw new Error('Missing code_verifier');
 
-            // Gửi POST request để lấy access_token
             const body = new URLSearchParams({
                 client_id: clientId,
                 grant_type: 'authorization_code',
@@ -49,14 +47,13 @@ const Spotify = {
                 localStorage.setItem('access_token', accessToken);
                 console.log('spotify.js: ', accessToken);
 
-                window.history.replaceState({}, document.title, '/'); // Xoá ?code khỏi URL
+                window.history.replaceState({}, document.title, '/');
                 return accessToken;
             } else {
                 console.error('Failed to get token:', data);
                 return null;
             }
         } else {
-            // Nếu chưa có token, bắt đầu quá trình login
             const codeVerifier = generateRandomString(128);
             const codeChallenge = await generateCodeChallenge(codeVerifier);
             localStorage.setItem('code_verifier', codeVerifier);
