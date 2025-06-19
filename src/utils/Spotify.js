@@ -6,6 +6,8 @@ const tokenEndpoint = 'https://accounts.spotify.com/api/token';
 const currentTime = Date.now();
 const storedToken = localStorage.getItem('access_token');
 const storedExpiration = localStorage.getItem('token_expiration');
+let tokenExpirationTime = 0;
+
 
 let accessToken = '';
 
