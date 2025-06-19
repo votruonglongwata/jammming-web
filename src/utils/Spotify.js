@@ -3,7 +3,9 @@ import { generateCodeChallenge, generateRandomString } from "../config/pkce";
 const clientId = '9cadc247ee634265b68c5d118ac46480';
 const redirectUri = 'https://jammming-web.vercel.app';
 const tokenEndpoint = 'https://accounts.spotify.com/api/token';
-
+const currentTime = Date.now();
+const storedToken = localStorage.getItem('access_token');
+const storedExpiration = localStorage.getItem('token_expiration');
 
 let accessToken = '';
 
@@ -11,9 +13,9 @@ const Spotify = {
     async getAccessToken() {
         if (accessToken) return accessToken;
 
-        const storedToken = localStorage.getItem('access_token');
-        if (storedToken) {
+        if (storedToken && storedExpiration && currentTime < parseInt(storedExpiration, 10)) {
             accessToken = storedToken;
+            tokenExpirationTime = parseInt(storedExpiration, 10);
             return accessToken;
         }
 
@@ -44,8 +46,13 @@ const Spotify = {
             const data = await response.json();
             if (data.access_token) {
                 accessToken = data.access_token;
+                const expiresIn = data.expires_in;
+                tokenExpirationTime = Date.now() + expiresIn * 1000;
+
                 localStorage.setItem('access_token', accessToken);
-                console.log('spotify.js: ', accessToken);
+                localStorage.setItem('token_expiration', tokenExpirationTime.toString());
+
+                window.history.replaceState({}, document.title, '/');
 
                 return accessToken;
             } else {
