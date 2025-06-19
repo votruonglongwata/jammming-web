@@ -8,6 +8,7 @@ const Playlist = ({ playlistTracks, isRemoval, onRemove, onSubmit }) => {
 
     const handleAddPlaylist = () => {
         onSubmit(name, playlistTracks)
+        setName('New Playlist')
     }
     return (
         <div className="Playlist">
