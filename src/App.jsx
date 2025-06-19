@@ -20,7 +20,6 @@ function App() {
       const token = await Spotify.getAccessToken();
 
       if (token) {
-        console.log('app token: ', token);
         setToken(token);
       }
       setLoading(false)
