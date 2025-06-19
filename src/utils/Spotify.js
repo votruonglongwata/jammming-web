@@ -47,7 +47,6 @@ const Spotify = {
                 localStorage.setItem('access_token', accessToken);
                 console.log('spotify.js: ', accessToken);
 
-                window.history.replaceState({}, document.title, '/');
                 return accessToken;
             } else {
                 console.error('Failed to get token:', data);
