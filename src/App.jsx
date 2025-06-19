@@ -78,7 +78,6 @@ function App() {
   const getCurrentUserId = async () => {
     try {
       const response = await getRequest('/me');
-      console.log(response.data.id);
 
       setUserId(response.data.id);
     } catch (error) {
@@ -128,7 +127,7 @@ function App() {
       const uris = playlistTracks.map(track => `spotify:track:${track.id}`);
       await addTracksToPlaylist(playlistId, uris);
 
-      alert("Đã lưu playlist thành công!");
+      alert("Save to playlist success!");
       setPlaylistTracks([])
     } catch (error) {
       console.log(error);
@@ -146,7 +145,7 @@ function App() {
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
       </div>
       {loading ?
-        (<div className="loading">🔐 Đang đăng nhập vào Spotify...</div>)
+        (<div className="loading">🔐 Logging in Spotify...</div>)
         :
         (
           <div className="app">
